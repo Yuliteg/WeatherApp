@@ -2,11 +2,9 @@
   <main>
     <div class="container flex">
       <p class="container__title">Select a city and view the weather forecast.</p>
-      <Search :selectedCity="selectedCity"
-        :fetchCurrentLocationWeather="fetchCurrentLocationWeather" />
+      <Search :selectedCity="selectedCity" :fetchCurrentLocationWeather="fetchCurrentLocationWeather" />
       <WeatherCard :cityData="selectedCity" />
     </div>
-
     <div class="weather-block__container">
       <p class="weather-block__header">Your Weather Block</p>
       <div class="weather-block__flex">
@@ -17,16 +15,10 @@
 </template>
 
 <script>
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import WeatherCard from '../components/WeatherCard.vue';
 import Search from '../components/SearchComponent.vue';
-import { cilList, cilShieldAlt, cilSearch } from '@coreui/icons';
 import { reactive, onMounted } from 'vue';
 import { fetchCurrentLocationWeather } from '@/helpers/fetch';
-
-library.add(faSearch, faTimesCircle);
 
 export default {
   components: {
@@ -48,9 +40,6 @@ export default {
     });
 
     return {
-      cilList,
-      cilShieldAlt,
-      cilSearch,
       selectedCity,
       fetchCurrentLocationWeather,
     };

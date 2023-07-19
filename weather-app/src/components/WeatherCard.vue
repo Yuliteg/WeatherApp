@@ -42,7 +42,6 @@ import { CIcon } from '@coreui/icons-vue';
 import { cilXCircle, cilStar } from '@coreui/icons';
 import BarChart from '../components/BarChart.vue';
 
-
 export default {
   props: {
     cityData: {

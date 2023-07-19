@@ -13,24 +13,24 @@ export default {
   components: { Bar },
   props: {
     wind: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
   computed: {
     chartData() {
-    const data = Object.values(this.wind);
-    const labels = Object.keys(this.wind);
+      const data = Object.values(this.wind);
+      const labels = Object.keys(this.wind);
 
-    return {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Wind Data',
-          backgroundColor: '#34d71bc3',
-          data: data
-        }
-      ]
+      return {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Wind Data',
+            backgroundColor: '#34d71bc3',
+            data: data
+          }
+        ]
       }
     }
   },

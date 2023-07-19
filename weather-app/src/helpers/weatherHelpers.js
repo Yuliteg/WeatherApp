@@ -10,14 +10,6 @@ export function formatTime(time) {
   });
 }
 
-export function debounce(func, wait) {
-  let timeout;
-  return function (...args) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
-  };
-}
-
 export const updateSelectedCity = (data, selectedCity) => {
   selectedCity.name = data.name;
   selectedCity.desc = data.weather[0].main;
