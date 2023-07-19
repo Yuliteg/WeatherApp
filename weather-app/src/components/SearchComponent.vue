@@ -1,7 +1,7 @@
 <template>
   <div class="search-container">
-    <input class="search-container__input" v-model="searchText" :placeholder="placeholder" @input="fetchCityOptions"
-      @keydown.enter="selectOption" autocomplete="off" />
+    <input ref="searchInput" class="search-container__input" v-model="searchText" :placeholder="placeholder"
+      @input="fetchCityOptions" @keydown.enter="selectOption" autocomplete="off" />
     <ul v-if="autocompleteOptions.length" class="autocomplete-options"
       :class="{ 'single-option': autocompleteOptions.length === 1 }">
       <li v-for="(option, index) in autocompleteOptions" :key="index" :class="{ selected: index === selectedOptionIndex }"
@@ -19,7 +19,7 @@
 import { CIcon } from '@coreui/icons-vue';
 import { cilSearch } from '@coreui/icons';
 import axios from 'axios';
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted, watch } from 'vue';
 import { updateSelectedCity } from "@/helpers/weatherHelpers"
 
 export default {
@@ -40,6 +40,21 @@ export default {
     const searchText = ref('');
     const placeholder = 'Search for a city';
     const autocompleteOptions = reactive([]);
+
+    const searchInput = ref(null);
+
+    const handleClickOutside = (event) => {
+      if (!searchInput.value || !searchInput.value.contains(event.target)) {
+        searchText.value = '';
+      }
+    };
+
+    onMounted(() => {
+      document.addEventListener('click', handleClickOutside);
+      return () => {
+        document.removeEventListener('click', handleClickOutside);
+      };
+    });
 
     const fetchCityOptions = async () => {
       if (searchText.value !== '') {
@@ -75,6 +90,9 @@ export default {
         }
       }
     };
+    watch(() => props, () => {
+      searchInput.value = props.$refs.searchInput;
+    });
 
     return {
       searchText,
@@ -84,7 +102,8 @@ export default {
       selectedOptionIndex,
       selectOption,
       cilSearch,
-      updateSelectedCity
+      updateSelectedCity,
+      searchInput,
     };
   },
 };

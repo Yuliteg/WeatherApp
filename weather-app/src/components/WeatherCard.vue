@@ -2,11 +2,11 @@
   <div class="weather-card">
     <div class="weather-card__container">
       <div class="weather-card__header flex">
-        <button class="weather-card__favorite-btn" @click="closeCard" title="Add to Favorites">
+        <button class="weather-card__favorite-btn" title="Add to Favorites">
           <CIcon :icon="cilStar" size="lg" class="icon" />
         </button>
         <p class="weather-card__title">Weather</p>
-        <button class="weather-card__add-btn" @click="closeCard" title="Add to Weather Blocks">
+        <button class="weather-card__add-btn" @click="addBlock" title="Add to Weather Blocks">
           <CIcon :icon="cilXCircle" size="lg" class="icon" />
         </button>
       </div>
@@ -63,9 +63,9 @@ export default {
     }
   },
   methods: {
-    closeCard() {
-      // Implement your logic to close the weather card
-    },
+    addBlock() {
+    this.$emit('addWeatherBlock');
+  },
   },
 };
 </script>

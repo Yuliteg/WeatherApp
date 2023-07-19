@@ -16,8 +16,5 @@ export const updateSelectedCity = (data, selectedCity) => {
   selectedCity.sunrise = formatTime(new Date(data.sys.sunrise * 1000));
   selectedCity.sunset = formatTime(new Date(data.sys.sunset * 1000));
   selectedCity.temperature = convertKelvinToCelsius(data.main.temp);
-
-
   selectedCity.windData = data.wind;
 };
-
