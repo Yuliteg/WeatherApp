@@ -17,8 +17,9 @@ import AppFooter from './components/AppFooter.vue';
 
 <style scoped>
 .app-container {
-  padding-left: 10%;
-  padding-right: 10%;
+  background-color: #b9d0e8;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 header {
@@ -45,10 +46,10 @@ nav a:first-of-type {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .app-container {
-    padding-left: 0;
-    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 </style>

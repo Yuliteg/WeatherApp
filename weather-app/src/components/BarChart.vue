@@ -11,18 +11,31 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default {
   name: 'BarChart',
   components: { Bar },
+  props: {
+    wind: {
+      type: Array,
+      required: true
+    }
+  },
+  computed: {
+    chartData() {
+    const data = Object.values(this.wind);
+    const labels = Object.keys(this.wind);
+
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Wind Data',
+          backgroundColor: '#34d71bc3',
+          data: data
+        }
+      ]
+      }
+    }
+  },
   data() {
     return {
-      chartData: {
-        labels: ['January', 'February', 'March'],
-        datasets: [
-          {
-            label: 'Temperature',
-            backgroundColor: '#36bd2173',
-            data: [40, 20, 12]
-          }
-        ]
-      },
       chartOptions: {
         responsive: true
       }

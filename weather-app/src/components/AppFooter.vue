@@ -9,6 +9,7 @@
 <style scoped>
 .footer__wrapper {
   margin-top: 2rem;
+  padding-bottom: 1rem;
   width: 100%;
   display: flex;
   align-items: flex-end;

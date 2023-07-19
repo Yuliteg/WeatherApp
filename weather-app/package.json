@@ -15,10 +15,14 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
+    "axios": "^1.4.0",
     "chart.js": "^4.3.0",
     "vue": "^3.3.4",
+    "vue-autosuggest": "^2.2.0",
     "vue-chartjs": "^5.2.0",
-    "vue-router": "^4.2.2"
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.2.2",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",

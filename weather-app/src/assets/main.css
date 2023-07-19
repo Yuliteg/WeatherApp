@@ -3,7 +3,9 @@
 #app {
   background-color: #c0d6ed;
   margin: 0 auto;
-  padding: 2rem;
+  padding-bottom: 0;
+  padding-left: 2rem;
+  padding-right: 2rem;
   padding-top: 0;
 
   font-weight: normal;
