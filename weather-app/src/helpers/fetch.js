@@ -16,8 +16,6 @@ export const fetchCurrentLocationWeather = async (selectedCity) => {
       `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY_WEATHER}`
     );
 
-    console.log(weatherResponse);
-
     updateSelectedCity(weatherResponse.data, selectedCity);
   } catch (error) {
     console.error('Error fetching current location weather:', error);
