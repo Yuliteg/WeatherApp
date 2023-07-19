@@ -4,7 +4,8 @@ import { updateSelectedCity } from './weatherHelpers';
 const API_KEY_IPIFY = 'f325833cecb436c2b5eb61d2ab763959';
 const API_KEY_WEATHER = 'a33819175e02801b2b4ee9eb562676ad';
 
-export const fetchCurrentLocationWeather = async (selectedCity) => {
+export const fetchCurrentLocationWeather = async (selectedCity, isLoading) => {
+  isLoading.value = true;
   try {
     const ipResponse = await axios.get('https://api.ipify.org?format=json');
     const ipAddress = ipResponse.data.ip;
@@ -19,5 +20,7 @@ export const fetchCurrentLocationWeather = async (selectedCity) => {
     updateSelectedCity(weatherResponse.data, selectedCity);
   } catch (error) {
     console.error('Error fetching current location weather:', error);
+  } finally {
+    isLoading.value = false;
   }
 };

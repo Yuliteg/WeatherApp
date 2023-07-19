@@ -42,6 +42,7 @@ export default {
     const autocompleteOptions = reactive([]);
 
     const searchInput = ref(null);
+    const isLoadingFetchSearch = ref(true);
 
     const handleClickOutside = (event) => {
       if (!searchInput.value || !searchInput.value.contains(event.target)) {
@@ -57,6 +58,7 @@ export default {
     });
 
     const fetchCityOptions = async () => {
+      isLoadingFetchSearch.value = true
       if (searchText.value !== '') {
         try {
           const response = await axios.get(
@@ -66,6 +68,8 @@ export default {
           autocompleteOptions.splice(0, autocompleteOptions.length, ...options); // Update the reactive object
         } catch (error) {
           console.error('Error fetching city options:', error);
+        } finally {
+          isLoadingFetchSearch.value = false
         }
       } else {
         autocompleteOptions.splice(0, autocompleteOptions.length);
@@ -172,5 +176,11 @@ export default {
 
 .autocomplete-options li.selected {
   background-color: #ccc;
+}
+
+@media (max-width: 600px) {
+  .search-container__input {
+    width: 320px;
+  }
 }
 </style>

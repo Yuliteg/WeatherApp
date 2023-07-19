@@ -18,8 +18,10 @@ import AppFooter from './components/AppFooter.vue';
 <style scoped>
 .app-container {
   background-color: #b9d0e8;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
+  max-width: 1300px;
+  min-width: 360px;
 }
 
 header {

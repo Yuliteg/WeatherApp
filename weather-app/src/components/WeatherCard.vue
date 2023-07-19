@@ -6,7 +6,10 @@
           <CIcon :icon="cilStar" size="lg" class="icon" />
         </button>
         <p class="weather-card__title">Weather</p>
-        <button class="weather-card__add-btn" @click="addBlock" title="Add to Weather Blocks">
+        <button v-if="isWeatherBlock" class="weather-card__delete-btn" @click="showDeleteConfirmation" title="Delete Weather Block">
+          <CIcon :icon="cilTrash" size="lg" class="icon" />
+        </button>
+        <button v-else class="weather-card__add-btn" @click="addBlock" title="Add to Weather Blocks">
           <CIcon :icon="cilXCircle" size="lg" class="icon" />
         </button>
       </div>
@@ -39,7 +42,7 @@
 
 <script>
 import { CIcon } from '@coreui/icons-vue';
-import { cilXCircle, cilStar } from '@coreui/icons';
+import { cilXCircle, cilStar, cilTrash } from '@coreui/icons';
 import BarChart from '../components/BarChart.vue';
 
 export default {
@@ -48,6 +51,10 @@ export default {
       type: Object,
       required: false,
     },
+    isWeatherBlock: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     CIcon,
@@ -55,21 +62,24 @@ export default {
   },
   setup() {
     CIcon.componentName = 'CIcon';
-    CIcon.icons = { cilXCircle, cilStar };
+    CIcon.icons = { cilXCircle, cilStar, cilTrash };
 
     return {
       cilXCircle,
       cilStar,
+      cilTrash,
     }
   },
   methods: {
     addBlock() {
-    this.$emit('addWeatherBlock');
-  },
+      this.$emit('addWeatherBlock');
+    },
+    showDeleteConfirmation() {
+      this.$emit('deleteWeatherBlock');
+    },
   },
 };
 </script>
-
 
 <style scoped>
 .weather-card {
@@ -94,12 +104,20 @@ export default {
   margin: 0;
 }
 
-.weather-card__add-btn {
+.weather-card__add-btn,
+.weather-card__delete-btn {
   background: none;
   border: none;
   cursor: pointer;
   color: #07f92b;
+}
+
+.weather-card__add-btn {
   transform: rotate(45deg);
+}
+
+.weather-card__delete-btn {
+  color: #f80d24b4;
 }
 
 .icon {
