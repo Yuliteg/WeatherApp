@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { updateSelectedCity } from './weatherHelpers';
-import { API_KEY_IPIFY, API_KEY_WEATHER } from '../env';
+import { API_KEY_IPIFY, API_KEY_WEATHER } from '../env.js';
 
 export const fetchCurrentLocationWeather = async (selectedCity, isLoading) => {
   isLoading.value = true;
