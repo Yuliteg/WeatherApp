@@ -6,7 +6,7 @@
           <CIcon :icon="cilStar" size="lg" class="icon star-icon" />
         </div>
         <p class="favorite-card__title">Your Favorite</p>
-        <button class="favorite-card__delete-btn" title="Delete favorite Block">
+        <button class="favorite-card__delete-btn" title="Delete favorite Block" @click="deleteFavoriteItem">
           <CIcon :icon="cilTrash" size="lg" class="icon" />
         </button>
       </div>
@@ -56,10 +56,9 @@ export default {
     CIcon,
     BarChart,
   },
-  setup(props) {
+  setup() {
     CIcon.componentName = 'CIcon';
     CIcon.icons = { cilXCircle, cilStar, cilTrash };
-    console.log(props.favititeCityData);
 
     return {
       cilXCircle,
@@ -67,9 +66,13 @@ export default {
       cilTrash,
     }
   },
+  methods: {
+    deleteFavoriteItem() {
+      this.$emit("deleteFavoriteItem");
+    },
+  }
 };
 </script>
-
 
 
 <style scoped>

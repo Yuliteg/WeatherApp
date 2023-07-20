@@ -1,7 +1,8 @@
 <template>
+  <p v-if="cityNotFound" class="city-not-found-message">City not found</p>
   <div class="search-container">
     <input ref="searchInput" class="search-container__input" v-model="searchText" :placeholder="placeholder"
-      @input="fetchCityOptions" @keydown.enter="selectOption" autocomplete="off" />
+      @input="fetchCityOptions" @keydown.enter="handleEnterKey" autocomplete="off" />
     <ul v-if="autocompleteOptions.length" class="autocomplete-options"
       :class="{ 'single-option': autocompleteOptions.length === 1 }">
       <li v-for="(option, index) in autocompleteOptions" :key="index" :class="{ selected: index === selectedOptionIndex }"
@@ -9,22 +10,17 @@
         {{ option }}
       </li>
     </ul>
-    <button class="search-container__button flex">
-      <CIcon :icon="cilSearch" size="lg" />
-    </button>
   </div>
 </template>
 
 <script>
-import { CIcon } from '@coreui/icons-vue';
 import { cilSearch } from '@coreui/icons';
 import axios from 'axios';
-import { ref, reactive, onMounted, watch } from 'vue';
+import { ref, reactive, onMounted, watch, computed } from 'vue';
 import { updateSelectedCity } from "@/helpers/weatherHelpers"
 
 export default {
   components: {
-    CIcon,
   },
   props: {
     selectedCity: {
@@ -42,6 +38,10 @@ export default {
     const autocompleteOptions = reactive([]);
 
     const searchInput = ref(null);
+
+    const cityNotFound = computed(() => {
+      return autocompleteOptions.length === 0 && searchText.value.trim() !== '';
+    });
 
     const handleClickOutside = (event) => {
       if (!searchInput.value || !searchInput.value.contains(event.target)) {
@@ -74,13 +74,18 @@ export default {
 
     const selectedOptionIndex = ref(-1);
 
+    const handleEnterKey = () => {
+      if (searchText.value.trim() !== '') {
+        selectOption(searchText.value);
+      }
+    };
+
     const selectOption = async (option) => {
       emit("loading", true)
       if (option) {
         searchText.value = option;
-        autocompleteOptions.splice(0, autocompleteOptions.length); // Clear the autocomplete options
+        autocompleteOptions.splice(0, autocompleteOptions.length);
         selectedOptionIndex.value = -1;
-
         try {
           const weatherResponse = await axios.get(
             `https://api.openweathermap.org/data/2.5/weather?q=${option}&appid=a33819175e02801b2b4ee9eb562676ad`
@@ -88,6 +93,11 @@ export default {
           updateSelectedCity(weatherResponse.data, props.selectedCity);
         } catch (error) {
           console.error('Error fetching city data:', error);
+
+          if (error.response && error.response.status === 404) {
+            autocompleteOptions.splice(0, autocompleteOptions.length);
+            cityNotFound.value = true;
+          }
         } finally {
           emit("loading", false)
         }
@@ -107,6 +117,8 @@ export default {
       cilSearch,
       updateSelectedCity,
       searchInput,
+      handleEnterKey,
+      cityNotFound
     };
   },
 };
@@ -133,19 +145,6 @@ export default {
 
 .search-container__input:focus {
   outline-color: #0d8d22a7;
-}
-
-.search-container__button {
-  height: 45px;
-  padding: 10px;
-  background-color: #ccc;
-  border: none;
-  border-radius: 0 5px 5px 0;
-}
-
-.search-container__button svg {
-  width: 1.3em;
-  height: 1.3em;
 }
 
 .autocomplete-options {
@@ -175,6 +174,10 @@ export default {
 
 .autocomplete-options li.selected {
   background-color: #ccc;
+}
+
+.city-not-found-message {
+  color: red;
 }
 
 @media (max-width: 600px) {

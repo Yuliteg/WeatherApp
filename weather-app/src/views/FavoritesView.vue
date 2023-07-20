@@ -8,7 +8,8 @@
     <div v-if="favoriteItems.length === 0" class="favorite-page__no-items">No favorite items added yet.</div>
     <div v-else>
       <div class="favorite-page__items">
-        <WeatherCardFavoriteItem v-for="(item, index) in favoriteItems" :key="index" :favititeCityData="item" />
+        <WeatherCardFavoriteItem v-for="(item, index) in favoriteItems" :key="index" :favititeCityData="item"
+          @deleteFavoriteItem="deleteFavoriteItem(index)" />
       </div>
     </div>
   </div>
@@ -87,6 +88,7 @@ export default {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .favorite-page__delete-btn {

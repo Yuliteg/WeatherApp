@@ -1,7 +1,9 @@
 <template>
   <main>
     <div class="container flex">
-      <p class="container__title">Select a city and view the weather forecast.</p>
+      <p class="container__title">Select a city and view the weather forecast.
+        <img src="../assets/cloudy.png" alt="cloud-image" />
+      </p>
       <Search :selectedCity="selectedCity" :fetchCurrentLocationWeather="fetchCurrentLocationWeather"
         @loading="isLoading = $event" />
       <WeatherCard :cityData="selectedCity" @addWeatherBlock="addWeatherBlock" :handleModalMessage="handleModalMessage" />
@@ -140,6 +142,11 @@ export default {
   padding-left: 10%;
   padding-right: 10%;
   font-size: 27px;
+}
+
+.container__title img {
+  width: 50px;
+  height: 50px;
 }
 
 .weather-block__header {
