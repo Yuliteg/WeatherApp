@@ -11,6 +11,7 @@ export function formatTime(time) {
 }
 
 export const updateSelectedCity = (data, selectedCity) => {
+  selectedCity.country = data.sys.country;
   selectedCity.name = data.name;
   selectedCity.desc = data.weather[0].main;
   selectedCity.sunrise = formatTime(new Date(data.sys.sunrise * 1000));

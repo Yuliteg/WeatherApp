@@ -36,13 +36,12 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const searchText = ref('');
     const placeholder = 'Search for a city';
     const autocompleteOptions = reactive([]);
 
     const searchInput = ref(null);
-    const isLoadingFetchSearch = ref(true);
 
     const handleClickOutside = (event) => {
       if (!searchInput.value || !searchInput.value.contains(event.target)) {
@@ -58,7 +57,6 @@ export default {
     });
 
     const fetchCityOptions = async () => {
-      isLoadingFetchSearch.value = true
       if (searchText.value !== '') {
         try {
           const response = await axios.get(
@@ -68,8 +66,6 @@ export default {
           autocompleteOptions.splice(0, autocompleteOptions.length, ...options); // Update the reactive object
         } catch (error) {
           console.error('Error fetching city options:', error);
-        } finally {
-          isLoadingFetchSearch.value = false
         }
       } else {
         autocompleteOptions.splice(0, autocompleteOptions.length);
@@ -79,6 +75,7 @@ export default {
     const selectedOptionIndex = ref(-1);
 
     const selectOption = async (option) => {
+      emit("loading", true)
       if (option) {
         searchText.value = option;
         autocompleteOptions.splice(0, autocompleteOptions.length); // Clear the autocomplete options
@@ -91,6 +88,8 @@ export default {
           updateSelectedCity(weatherResponse.data, props.selectedCity);
         } catch (error) {
           console.error('Error fetching city data:', error);
+        } finally {
+          emit("loading", false)
         }
       }
     };

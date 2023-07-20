@@ -2,15 +2,19 @@
   <main>
     <div class="container flex">
       <p class="container__title">Select a city and view the weather forecast.</p>
-      <Search :selectedCity="selectedCity" :fetchCurrentLocationWeather="fetchCurrentLocationWeather" />
-      <WeatherCard :cityData="selectedCity" @addWeatherBlock="addWeatherBlock" />
+      <Search :selectedCity="selectedCity" :fetchCurrentLocationWeather="fetchCurrentLocationWeather"
+        @loading="isLoading = $event" />
+      <WeatherCard :cityData="selectedCity" @addWeatherBlock="addWeatherBlock" :handleModalMessage="handleModalMessage" />
     </div>
     <div class="weather-block__container">
       <p class="weather-block__header">Your Weather Blocks</p>
       <div class="weather-block__flex">
-        <h2 class="weather-block__text">You don't have any Weather Blocks yet</h2>
+        <h2 v-if="!hasWeatherBlocks" class="weather-block__text">
+          You don't have any Weather Blocks yet!
+          <img src="../assets/cloud_9766222.png" alt="No Weather Blocks" />
+        </h2>
         <WeatherCard v-for="(block, index) in weatherBlocks" :key="index" :cityData="block" :isWeatherBlock="true"
-          @deleteWeatherBlock="showConfirmationModal(index)" />
+          @deleteWeatherBlock="showConfirmationModal(index)" :handleModalMessage="handleModalMessage" />
       </div>
     </div>
   </main>
@@ -30,7 +34,7 @@ import WeatherCard from '../components/WeatherCard.vue';
 import LoadingComponent from '../components/LoadingComponent.vue';
 import Search from '../components/SearchComponent.vue';
 import { fetchCurrentLocationWeather } from '@/helpers/weatherFetch';
-import { reactive, onMounted, ref } from 'vue';
+import { reactive, onMounted, ref, computed } from 'vue';
 import Modal from '../components/ModalComponent.vue';
 import ConfirmationModal from '../components/ConfirmationModal.vue';
 
@@ -44,6 +48,7 @@ export default {
   },
   setup() {
     const selectedCity = reactive({
+      country: '',
       name: '',
       desc: '',
       sunrise: '',
@@ -98,6 +103,13 @@ export default {
       confirmationModalVisible.value = false;
     };
 
+    const hasWeatherBlocks = computed(() => weatherBlocks.length > 0);
+
+    const handleModalMessage = (message) => {
+      showModal.value = true;
+      modalMessage.value = message;
+    };
+
     return {
       selectedCity,
       fetchCurrentLocationWeather,
@@ -109,9 +121,12 @@ export default {
       confirmationModalVisible,
       closeConfirmationModal,
       showConfirmationModal,
-      isLoading
+      isLoading,
+      hasWeatherBlocks,
+      handleModalMessage
     };
   },
+
 };
 </script>
 
@@ -142,5 +157,10 @@ export default {
 
 .weather-block__text {
   padding-top: 15vh;
+}
+
+.weather-block__text img {
+  width: 50px;
+  height: 50px;
 }
 </style>
