@@ -84,7 +84,7 @@ export default {
   border-radius: 10px;
   border: 1px solid #ccc;
   padding: 1rem;
-  background: url(../assets/card-item.jpg) center / cover;
+  background: url(../assets/sl_031821_41530_20.jpg) center / cover;
 }
 
 .favorite-card__header {

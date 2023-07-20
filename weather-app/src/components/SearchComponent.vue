@@ -2,7 +2,7 @@
   <p v-if="cityNotFound" class="city-not-found-message">City not found</p>
   <div class="search-container">
     <input ref="searchInput" class="search-container__input" v-model="searchText" :placeholder="placeholder"
-      @input="fetchCityOptions" @keydown.enter="handleEnterKey" autocomplete="off" />
+      @input="debouncedFetchCityOptions" @keydown.enter="handleEnterKey" autocomplete="off" />
     <ul v-if="autocompleteOptions.length" class="autocomplete-options"
       :class="{ 'single-option': autocompleteOptions.length === 1 }">
       <li v-for="(option, index) in autocompleteOptions" :key="index" :class="{ selected: index === selectedOptionIndex }"
@@ -16,8 +16,10 @@
 <script>
 import { cilSearch } from '@coreui/icons';
 import axios from 'axios';
-import { ref, reactive, onMounted, watch, computed } from 'vue';
+import { ref, reactive, onMounted, watch } from 'vue';
 import { updateSelectedCity } from "@/helpers/weatherHelpers"
+import { API_KEY_WEATHER } from "../env"
+import { debounce } from 'lodash';
 
 export default {
   components: {
@@ -38,10 +40,9 @@ export default {
     const autocompleteOptions = reactive([]);
 
     const searchInput = ref(null);
+    const selectedOptionIndex = ref(-1);
 
-    const cityNotFound = computed(() => {
-      return autocompleteOptions.length === 0 && searchText.value.trim() !== '';
-    });
+    const cityNotFound = ref(false);
 
     const handleClickOutside = (event) => {
       if (!searchInput.value || !searchInput.value.contains(event.target)) {
@@ -60,19 +61,22 @@ export default {
       if (searchText.value !== '') {
         try {
           const response = await axios.get(
-            `https://api.openweathermap.org/geo/1.0/direct?q=${searchText.value}&limit=6&appid=a33819175e02801b2b4ee9eb562676ad`
+            `https://api.openweathermap.org/geo/1.0/direct?q=${searchText.value}&limit=6&appid=${API_KEY_WEATHER}`
           );
           const options = response.data.map((city) => city.name);
-          autocompleteOptions.splice(0, autocompleteOptions.length, ...options); // Update the reactive object
+          autocompleteOptions.splice(0, autocompleteOptions.length, ...options);
+          cityNotFound.value = autocompleteOptions.length === 0;
         } catch (error) {
           console.error('Error fetching city options:', error);
+          cityNotFound.value = true;
         }
       } else {
         autocompleteOptions.splice(0, autocompleteOptions.length);
+        cityNotFound.value = false;
       }
     };
 
-    const selectedOptionIndex = ref(-1);
+    const debouncedFetchCityOptions = debounce(fetchCityOptions, 500);
 
     const handleEnterKey = () => {
       if (searchText.value.trim() !== '') {
@@ -81,28 +85,27 @@ export default {
     };
 
     const selectOption = async (option) => {
-      emit("loading", true)
+      emit("loading", true);
       if (option) {
         searchText.value = option;
         autocompleteOptions.splice(0, autocompleteOptions.length);
         selectedOptionIndex.value = -1;
         try {
           const weatherResponse = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${option}&appid=a33819175e02801b2b4ee9eb562676ad`
+            `https://api.openweathermap.org/data/2.5/weather?q=${option}&appid=${API_KEY_WEATHER}`
           );
           updateSelectedCity(weatherResponse.data, props.selectedCity);
+          cityNotFound.value = false;
         } catch (error) {
           console.error('Error fetching city data:', error);
 
-          if (error.response && error.response.status === 404) {
-            autocompleteOptions.splice(0, autocompleteOptions.length);
-            cityNotFound.value = true;
-          }
+          cityNotFound.value = error.response?.status === 404;
         } finally {
-          emit("loading", false)
+          emit("loading", false);
         }
       }
     };
+
     watch(() => props, () => {
       searchInput.value = props.$refs.searchInput;
     });
@@ -110,7 +113,7 @@ export default {
     return {
       searchText,
       placeholder,
-      fetchCityOptions,
+      debouncedFetchCityOptions,
       autocompleteOptions,
       selectedOptionIndex,
       selectOption,
