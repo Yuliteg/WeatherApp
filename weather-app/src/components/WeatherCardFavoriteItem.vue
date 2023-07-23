@@ -1,48 +1,48 @@
 <template>
   <div class="favorite-card">
     <div class="favorite-card__container">
-      <div class="favorite-card__header flex">
+      <header class="favorite-card__header flex">
         <div class="favorite-card__favorite-container">
-          <CIcon :icon="cilStar" size="lg" class="icon star-icon" />
+            <img src="../assets/star (1).png" alt="star-icon" class="icon star-icon" title="Favorite"/>
         </div>
-        <p class="favorite-card__title">Your Favorite</p>
+        <h2 class="favorite-card__title">Your Favorite</h2>
         <button class="favorite-card__delete-btn" title="Delete favorite Block" @click="deleteFavoriteItem">
           <CIcon :icon="cilTrash" size="lg" class="icon" />
         </button>
-      </div>
-      <div class="favorite-card__content">
+      </header>
+      <section class="favorite-card__content">
         <p>
-          <span class="favorite-card__text">Country:</span> {{ favititeCityData.country || '' }}
+          <strong class="favorite-card__text">Country:</strong> {{ favititeCityData.country || '' }}
         </p>
         <p>
-          <span class="favorite-card__text">City:</span> {{ favititeCityData.name || '' }}
+          <strong class="favorite-card__text">City:</strong> {{ favititeCityData.name || '' }}
         </p>
         <p>
-          <span class="favorite-card__text">Description:</span> {{ favititeCityData.desc || "" }}
+          <strong class="favorite-card__text">Description:</strong> {{ favititeCityData.desc || "" }}
         </p>
         <p>
-          <span class="favorite-card__text">Sunrise:</span> {{ favititeCityData.sunrise || '' }}
+          <strong class="favorite-card__text">Sunrise:</strong> {{ favititeCityData.sunrise || '' }}
         </p>
         <p>
-          <span class="favorite-card__text">Sunset:</span> {{ favititeCityData.sunset || '' }}
+          <strong class="favorite-card__text">Sunset:</strong> {{ favititeCityData.sunset || '' }}
         </p>
         <p class="favorite-card__temperature">
-          <span class="favorite-card__temperature-text">Temperature:</span>
-          <span class="favorite-card__temperature-value">
+          <strong class="favorite-card__temperature-text">Temperature:</strong>
+          <strong class="favorite-card__temperature-value">
             {{ favititeCityData.temperature || 0 }}°C
-          </span>
+          </strong>
         </p>
-      </div>
-      <div class="favorite-card__chart">
+      </section>
+      <section class="favorite-card__chart">
         <BarChart :wind="favititeCityData.windData" />
-      </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
 import { CIcon } from '@coreui/icons-vue';
-import { cilXCircle, cilStar, cilTrash } from '@coreui/icons';
+import { cilXCircle, cilTrash } from '@coreui/icons';
 import BarChart from '../components/BarChart.vue';
 
 export default {
@@ -58,11 +58,10 @@ export default {
   },
   setup() {
     CIcon.componentName = 'CIcon';
-    CIcon.icons = { cilXCircle, cilStar, cilTrash };
+    CIcon.icons = { cilXCircle, cilTrash };
 
     return {
       cilXCircle,
-      cilStar,
       cilTrash,
     }
   },
@@ -116,7 +115,7 @@ export default {
 }
 
 .icon {
-  width: 2.3em;
+  width: 2em;
 }
 
 .favorite-card__favorite-btn {
@@ -162,9 +161,5 @@ export default {
   font-weight: bold;
   padding: 1.3rem;
   display: inline-block;
-}
-
-.star-icon {
-  color: yellow;
 }
 </style>

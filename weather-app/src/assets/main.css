@@ -1,5 +1,10 @@
 @import './base.css';
 
+:root {
+  --header-height: 4rem;
+  --white-color: rgb(239, 239, 241);
+}
+
 #app {
   background-color: #c0d6ed;
   margin: 0 auto;

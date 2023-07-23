@@ -134,9 +134,31 @@ export default {
 
 <style>
 .container {
+  position: relative;
   padding-top: 4%;
   flex-direction: column;
 }
+
+.container::before,
+.container::after {
+  content: '';
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: url(../assets/cloud.png) center / contain no-repeat;
+  opacity: 0.3;
+}
+
+.container::before {
+  top: 220px;
+  left: 10%;
+}
+
+.container::after {
+  top: 140px;
+  right: 10%;
+}
+
 
 .container__title {
   padding-left: 10%;
@@ -169,5 +191,12 @@ export default {
 .weather-block__text img {
   width: 50px;
   height: 50px;
+}
+
+@media (max-width: 700px) {
+  .container::before,
+  .container::after {
+    display: none; 
+  }
 }
 </style>

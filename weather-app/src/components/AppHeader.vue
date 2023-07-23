@@ -6,8 +6,14 @@
         <img src="@/assets/weather-app(1).png" alt="Weather Icon" class="header__logo-icon" />
       </div>
       <nav class="header__nav">
-        <router-link to="/" class="header__nav-link">Home</router-link>
-        <router-link to="/favorites" class="header__nav-link">Favorites</router-link>
+        <ul class="header__nav-list">
+          <li class="header__nav-item">
+            <router-link to="/" class="header__nav-link">Home</router-link>
+          </li>
+          <li class="header__nav-item">
+            <router-link to="/favorites" class="header__nav-link">Favorites</router-link>
+          </li>
+        </ul>
       </nav>
     </div>
   </header>
@@ -25,7 +31,7 @@ export default {
 
 <style scoped>
 header {
-  height: 4rem;
+  height: var(--header-height);
   line-height: 1.5;
   position: relative;
   display: flex;
@@ -61,13 +67,21 @@ header::after {
 
 .header__logo-icon {
   width: 33px;
-  height: 30px; 
+  height: 30px;
   margin-left: 0.3rem;
 }
 
 .header__nav {
   display: flex;
   align-items: center;
+}
+
+.header__nav-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .header__nav-link {

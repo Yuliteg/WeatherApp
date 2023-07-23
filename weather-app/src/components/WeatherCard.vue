@@ -1,14 +1,14 @@
 <template>
-  <div class="weather-card">
+  <article class="weather-card">
     <div class="weather-card__container">
-      <div class="weather-card__header flex">
+      <header class="weather-card__header flex">
         <div class="weather-card__favorite-container">
           <button class="weather-card__favorite-btn" @click="addToFavorites">
             Add to <br /> Favorites
           </button>
-          <CIcon :icon="cilStar" v-if="isInFavorites" size="lg" class="icon star-icon" />
+          <img v-if="isInFavorites" src="../assets/star (1).png" alt="star-icon" class="icon star-icon" title="Favorite"/>
         </div>
-        <p class="weather-card__title">Weather</p>
+        <h2 class="weather-card__title">Weather</h2>
         <button v-if="isWeatherBlock" class="weather-card__delete-btn" @click="showDeleteConfirmation"
           title="Delete Weather Block">
           <CIcon :icon="cilTrash" size="lg" class="icon" />
@@ -16,40 +16,40 @@
         <button v-else class="weather-card__add-btn" @click="addBlock" title="Add to Weather Blocks">
           <CIcon :icon="cilXCircle" size="lg" class="icon" />
         </button>
-      </div>
-      <div class="weather-card__content">
+      </header>
+      <section class="weather-card__content">
         <p>
-          <span class="weather-card__text">Country:</span> {{ cityData.country || '' }}
+          <strong class="weather-card__text">Country:</strong> {{ cityData.country || '' }}
         </p>
         <p>
-          <span class="weather-card__text">City:</span> {{ cityData.name || '' }}
+          <strong class="weather-card__text">City:</strong> {{ cityData.name || '' }}
         </p>
         <p>
-          <span class="weather-card__text">Description:</span> {{ cityData.desc || "" }}
+          <strong class="weather-card__text">Description:</strong> {{ cityData.desc || "" }}
         </p>
         <p>
-          <span class="weather-card__text">Sunrise:</span> {{ cityData.sunrise || '' }}
+          <strong class="weather-card__text">Sunrise:</strong> {{ cityData.sunrise || '' }}
         </p>
         <p>
-          <span class="weather-card__text">Sunset:</span> {{ cityData.sunset || '' }}
+          <strong class="weather-card__text">Sunset:</strong> {{ cityData.sunset || '' }}
         </p>
         <p class="weather-card__temperature">
-          <span class="weather-card__temperature-text">Temperature:</span>
-          <span class="weather-card__temperature-value">
+          <strong class="weather-card__temperature-text">Temperature:</strong>
+          <strong class="weather-card__temperature-value">
             {{ cityData.temperature || 0 }}°C
-          </span>
+          </strong>
         </p>
-      </div>
-      <div class="weather-card__chart">
+      </section>
+      <section class="weather-card__chart">
         <BarChart :wind="cityData.windData" />
-      </div>
+      </section>
     </div>
-  </div>
+  </article>
 </template>
 
 <script>
 import { CIcon } from '@coreui/icons-vue';
-import { cilXCircle, cilStar, cilTrash } from '@coreui/icons';
+import { cilXCircle, cilTrash } from '@coreui/icons';
 import BarChart from '../components/BarChart.vue';
 import { ref, watchEffect } from "vue"
 
@@ -74,7 +74,7 @@ export default {
   },
   setup(props, { emit }) {
     CIcon.componentName = 'CIcon';
-    CIcon.icons = { cilXCircle, cilStar, cilTrash };
+    CIcon.icons = { cilXCircle, cilTrash };
 
     const isInFavorites = ref(checkIfCityIsInFavorites());
 
@@ -113,7 +113,6 @@ export default {
 
     return {
       cilXCircle,
-      cilStar,
       cilTrash,
       addToFavorites,
       showDeleteConfirmation,
@@ -134,6 +133,7 @@ export default {
   border: 1px solid #ccc;
   padding: 1rem;
   background: url(../assets/card-item.jpg) center / cover;
+  z-index: 1;
 }
 
 .weather-card__header {
@@ -143,8 +143,8 @@ export default {
 
 .weather-card__title {
   padding-right: 0, 8rem;
-  font-size: 25px;
-  color: rgb(247, 251, 232);
+  font-size: 1.5rem;
+  color: var(--white-color);
   margin: 0;
 }
 
@@ -165,20 +165,20 @@ export default {
 }
 
 .icon {
-  width: 2.3em;
+  width: 2.2em;
 }
 
 .weather-card__favorite-btn {
   border: none;
   cursor: pointer;
   background-color: #edf73e9c;
-  color: rgb(238, 238, 238);
+  color: var(--white-color);
   border-radius: 10%;
 }
 
 .weather-card__content {
   padding-left: 10%;
-  color: rgb(239, 239, 241);
+  color: var(--white-color);
   font-size: 21px;
   margin-top: 1rem;
 }
@@ -207,10 +207,9 @@ export default {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  font-size: 25px;
+  font-size: 1.4rem;
   font-weight: bold;
-  padding: 1.3rem;
-  display: inline-block;
+  padding: 1.5rem;
 }
 
 .weather-card__favorite-container {
@@ -218,15 +217,10 @@ export default {
   align-items: center;
 }
 
-.weather-card__favorite-btn {
-  flex: 1;
-}
-
 .star-icon {
   position: absolute;
   left: 26%;
   width: 20px;
   height: 20px;
-  color: yellow;
 }
 </style>
