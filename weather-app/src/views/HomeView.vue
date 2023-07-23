@@ -135,7 +135,7 @@ export default {
 <style>
 .container {
   position: relative;
-  padding-top: 4%;
+  padding-top: 2%;
   flex-direction: column;
 }
 
@@ -194,9 +194,13 @@ export default {
 }
 
 @media (max-width: 700px) {
+  .container {
+    padding-top: 5%;
+  }
+
   .container::before,
   .container::after {
-    display: none; 
+    display: none;
   }
 }
 </style>
