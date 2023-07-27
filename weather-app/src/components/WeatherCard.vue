@@ -6,7 +6,7 @@
           <button class="weather-card__favorite-btn" @click="addToFavorites">
             Add to <br /> Favorites
           </button>
-          <img v-if="isInFavorites" src="../assets/star%20(1).png" alt="star-icon" class="icon star-icon" title="Favorite"/>
+          <img v-if="isInFavorites" src="../assets/star2.png" alt="star-icon" class="icon star-icon" title="Favorite"/>
         </div>
         <h2 class="weather-card__title">Weather</h2>
         <button v-if="isWeatherBlock" class="weather-card__delete-btn" @click="showDeleteConfirmation"
