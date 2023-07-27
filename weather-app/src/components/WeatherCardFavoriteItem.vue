@@ -93,7 +93,7 @@ export default {
 
 .favorite-card__title {
   padding-right: 0, 8rem;
-  font-size: 25px;
+  font-size: 24px;
   color: rgb(247, 251, 232);
   margin: 0;
 }
