@@ -3,7 +3,7 @@
     <div class="favorite-card__container">
       <header class="favorite-card__header flex">
         <div class="favorite-card__favorite-container">
-            <img src="../assets/star (1).png" alt="star-icon" class="icon star-icon" title="Favorite"/>
+            <img src="../assets/star%20(1).png" alt="star-icon" class="icon star-icon" title="Favorite"/>
         </div>
         <h2 class="favorite-card__title">Your Favorite</h2>
         <button class="favorite-card__delete-btn" title="Delete favorite Block" @click="deleteFavoriteItem">
